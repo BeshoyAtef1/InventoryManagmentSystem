@@ -195,6 +195,9 @@
             "projectReferences": {
               "E:\\iti 9 m 2024\\InventoryManagmentSystem\\InventoryManagmentSystem\\InventoryManagmentSystem.DataAccess\\InventoryManagmentSystem.DataAccess.csproj": {
                 "projectPath": "E:\\iti 9 m 2024\\InventoryManagmentSystem\\InventoryManagmentSystem\\InventoryManagmentSystem.DataAccess\\InventoryManagmentSystem.DataAccess.csproj"
+              },
+              "E:\\iti 9 m 2024\\InventoryManagmentSystem\\InventoryManagmentSystem\\InventoryManagmentSystem.Domain\\InventoryManagmentSystem.Domain.csproj": {
+                "projectPath": "E:\\iti 9 m 2024\\InventoryManagmentSystem\\InventoryManagmentSystem\\InventoryManagmentSystem.Domain\\InventoryManagmentSystem.Domain.csproj"
               }
             }
           }

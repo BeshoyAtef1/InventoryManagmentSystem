@@ -4473,6 +4473,7 @@
   "projectFileDependencyGroups": {
     "net8.0": [
       "InventoryManagmentSystem.DataAccess >= 1.0.0",
+      "InventoryManagmentSystem.Domain >= 1.0.0",
       "Microsoft.EntityFrameworkCore.SqlServer >= 8.0.15",
       "Microsoft.EntityFrameworkCore.Tools >= 8.0.15",
       "Swashbuckle.AspNetCore >= 6.6.2"
@@ -4513,6 +4514,9 @@
           "projectReferences": {
             "E:\\iti 9 m 2024\\InventoryManagmentSystem\\InventoryManagmentSystem\\InventoryManagmentSystem.DataAccess\\InventoryManagmentSystem.DataAccess.csproj": {
               "projectPath": "E:\\iti 9 m 2024\\InventoryManagmentSystem\\InventoryManagmentSystem\\InventoryManagmentSystem.DataAccess\\InventoryManagmentSystem.DataAccess.csproj"
+            },
+            "E:\\iti 9 m 2024\\InventoryManagmentSystem\\InventoryManagmentSystem\\InventoryManagmentSystem.Domain\\InventoryManagmentSystem.Domain.csproj": {
+              "projectPath": "E:\\iti 9 m 2024\\InventoryManagmentSystem\\InventoryManagmentSystem\\InventoryManagmentSystem.Domain\\InventoryManagmentSystem.Domain.csproj"
             }
           }
         }

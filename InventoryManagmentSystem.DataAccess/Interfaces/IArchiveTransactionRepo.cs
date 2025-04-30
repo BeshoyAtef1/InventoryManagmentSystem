@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InventoryManagmentSystem.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace InventoryManagmentSystem.DataAccess.Interfaces
 {
-    internal interface IProductRepository
+    public interface IArchiveTransactionRepo : IGenericRepository<archiveTransactionRepo>
     {
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace InventoryManagmentSystem.Domain.Models
 {
    
-    public class ArchiveTransaction
+    public class archiveTransactionRepo
     {
         public enum TransactionType
         {

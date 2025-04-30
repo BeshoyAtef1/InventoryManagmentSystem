@@ -13,9 +13,9 @@ namespace InventoryManagmentSystem.DataAccess.Data
         public AppDbContext(DbContextOptions<AppDbContext> Options):base (Options) { }
 
         public DbSet<Product> products { get; set; }
-        public DbSet<ArchiveTransaction> ArchiveTransactions { get; set; }
+        public DbSet<archiveTransactionRepo> ArchiveTransactions { get; set; }
         public DbSet<InventoryTransaction> InventoryTransactions { get; set; }
-        public DbSet<NotificationLog> NotificationLogs { get; set; }
+        public DbSet<Notification> NotificationLogs { get; set; }
         public DbSet<ProductWarehouse> ProductWarehouses { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Warehouse> Warehouses { get; set; }

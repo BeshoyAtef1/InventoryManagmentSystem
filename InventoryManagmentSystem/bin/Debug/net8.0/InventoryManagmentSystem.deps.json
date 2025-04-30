@@ -9,6 +9,7 @@
       "InventoryManagmentSystem/1.0.0": {
         "dependencies": {
           "InventoryManagmentSystem.DataAccess": "1.0.0",
+          "InventoryManagmentSystem.Domain": "1.0.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.15",
           "Microsoft.EntityFrameworkCore.Tools": "8.0.15",
           "Swashbuckle.AspNetCore": "6.6.2"

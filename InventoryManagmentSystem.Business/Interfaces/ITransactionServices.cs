@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace InventoryManagmentSystem.Business.Interfaces
 {
-    internal interface ITransactionServices
+    public interface ITransactionServices
     {
     }
 }

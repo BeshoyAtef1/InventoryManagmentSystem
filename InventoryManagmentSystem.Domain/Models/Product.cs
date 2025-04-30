@@ -16,9 +16,9 @@ namespace InventoryManagmentSystem.Domain.Models
         [Range(0, double.MaxValue)]
         public int Price { get; set; }
 
-        public ICollection<ProductWarehouse> ProductHouses { get; set; }
+        public ICollection<ProductWarehouse> ProductWarehouse { get; set; } //ProductHouses
         public ICollection<InventoryTransaction> InventoryTransactions { get; set; }
-        public ICollection<NotificationLog> NotificationLogs { get; set; }
+        public ICollection<Notification> Notification { get; set; }
 
     }
 }

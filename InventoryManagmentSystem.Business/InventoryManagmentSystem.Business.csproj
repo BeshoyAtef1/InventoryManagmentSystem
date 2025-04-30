@@ -14,4 +14,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\InventoryManagmentSystem.DataAccess\InventoryManagmentSystem.DataAccess.csproj" />
+    <ProjectReference Include="..\InventoryManagmentSystem.Domain\InventoryManagmentSystem.Domain.csproj" />
+    <ProjectReference Include="..\InventoryManagmentSystem\InventoryManagmentSystem.csproj" />
+  </ItemGroup>
+
 </Project>

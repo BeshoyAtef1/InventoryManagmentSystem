@@ -13,7 +13,7 @@ namespace InventoryManagmentSystem.Domain.Models
         public string Name { get; set; }
 
         public ICollection<InventoryTransaction> inventoryTransactions { get; set; }
-        public ICollection<ArchiveTransaction> ArchivedTransactions { get; set; }
+        public ICollection<archiveTransactionRepo> ArchivedTransactions { get; set; }
 
     }
 }

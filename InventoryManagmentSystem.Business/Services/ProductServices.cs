@@ -1,4 +1,6 @@
-﻿using System;
+﻿using InventoryManagmentSystem.Business.Interfaces;
+using InventoryManagmentSystem.DataAccess.UnitOfWork;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,14 @@ using System.Threading.Tasks;
 
 namespace InventoryManagmentSystem.Business.Services
 {
-    internal class ProductServices
+    public class ProductServices : IProductServices
     {
+        private readonly IUnitOfWork _unitOfWork;
+
+        public ProductServices(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
     }
 }

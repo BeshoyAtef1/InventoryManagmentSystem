@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\InventoryManagmentSystem.DataAccess\InventoryManagmentSystem.DataAccess.csproj" />
+    <ProjectReference Include="..\InventoryManagmentSystem.Domain\InventoryManagmentSystem.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace InventoryManagmentSystem.Business.DTO
 {
-    internal class ProductDto
+    public class ProductDto
     {
     }
 }
