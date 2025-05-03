@@ -6,6 +6,7 @@ using InventoryManagmentSystem.DataAccess.UnitOfWork;
 using InventoryManagmentSystem.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,11 +19,14 @@ namespace InventoryManagmentSystem.Business.Services
     public class TransactionServices : ITransactionServices
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger<TransactionServices> _logger;
 
 
-        public TransactionServices(IUnitOfWork unitOfWork)
+        public TransactionServices(IUnitOfWork unitOfWork , ILogger<TransactionServices> logger)
         {
             _unitOfWork = unitOfWork;
+            _logger = logger;   
+
         }
 
         public async Task<GenaricResponse<string>> AddStockAsync(AddTransactionDto addDto , string userId)
@@ -40,6 +44,7 @@ namespace InventoryManagmentSystem.Business.Services
 
                 productWarehouse.Quantity += addDto.Quantity;
 
+              
    
                 InventoryTransaction transaction = new InventoryTransaction()
                 {
@@ -85,7 +90,15 @@ namespace InventoryManagmentSystem.Business.Services
                     return new GenaricResponse<string> { Success = false, Data = "Not enough to remove" };
                 }
 
+
                 productWarehouse.Quantity -= DeleteDto.Quantity;
+
+
+                if (productWarehouse.Quantity < productWarehouse.LowStockThreshold)  // log
+                {
+                    _logger.LogWarning($"product {productWarehouse.ProductId} is LowStockThreshold ");
+                }
+
 
                 InventoryTransaction transaction = new InventoryTransaction()
                 {
@@ -141,7 +154,11 @@ namespace InventoryManagmentSystem.Business.Services
                 productSourceWarehouse.Quantity -= TransferDto.Quantity;
                 productDestinationWarehouse.Quantity += TransferDto.Quantity;
 
-                
+                if (productSourceWarehouse.Quantity < productSourceWarehouse.LowStockThreshold)  // log
+                {
+                    _logger.LogWarning($"product {productSourceWarehouse.ProductId} is LowStockThreshold ");
+                }
+
 
                 InventoryTransaction transaction = new InventoryTransaction()
                 {

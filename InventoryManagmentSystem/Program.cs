@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
+using Serilog.Sinks.MSSqlServer;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +28,15 @@ builder.Services.AddScoped<ITransactionServices, TransactionServices>();
 builder.Services.AddScoped<IAccoutSevices, AccountServices>();
 
 
+Serilog.Log.Logger = new LoggerConfiguration()
+    .WriteTo.Seq(builder.Configuration["Seq:SeqUrl"])
+    .WriteTo.MSSqlServer(connectionString: builder.Configuration["ConnectionStrings:CS"],
+   // restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Warning,
+    sinkOptions: new MSSqlServerSinkOptions { TableName = "Logs " , AutoCreateSqlTable =true }
+
+).CreateLogger();
+
+builder.Host.UseSerilog();
 
 
 builder.Services.AddDbContext<AppDbContext>(

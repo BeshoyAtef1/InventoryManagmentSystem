@@ -60,7 +60,7 @@ namespace InventoryManagmentSystem.Controllers
             return BadRequest(RemoveResponse);
         }
 
-        [Authorize(Roles = "User")]
+       [Authorize(Roles = "User")]
         [HttpPost("TransferStock")]
         public async Task<IActionResult> TransferStock(TransferTransactionDto TransferDto)
         {
