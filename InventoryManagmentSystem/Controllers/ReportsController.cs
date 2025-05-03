@@ -20,7 +20,7 @@ namespace InventoryManagmentSystem.Controllers
             _reportService = reportService;
         }
 
-        [Authorize]
+        [Authorize(Roles = "User")]
         [HttpGet("LowStockReport/{Page:int}")]
         public IActionResult LowStockReport(int Page)
         {
@@ -33,11 +33,12 @@ namespace InventoryManagmentSystem.Controllers
             return BadRequest(LowStockReport);
         }
 
+        [Authorize(Roles = "User")]
         [HttpGet("TransactionHistoryByProductId/{id:int}/{Page:int}")]
         public IActionResult TransactionHistoryByProductId(int id ,int Page)
         {
             GenaricResponse<IEnumerable<TransactionHistoryDto>> TransactionHistoryDto =
-                _reportService.TransactionHistory(x=>x.ProductId==id ,Page);
+                _reportService.TransactionHistoryWithFilter(x=>x.ProductId==id ,Page);
 
             if (TransactionHistoryDto.Success)
             {
@@ -46,11 +47,11 @@ namespace InventoryManagmentSystem.Controllers
             return BadRequest(TransactionHistoryDto);
         }
 
-        [HttpGet("TransactionHistoryByDate/{Page:int}")]
-        public IActionResult TransactionHistoryByDate(TransactionHistoryByDateDto Date, int Page)
+        [HttpPost("TransactionHistoryByDate/{Page:int}")]
+        public IActionResult TransactionHistoryByDate(TransactionHistoryByDateDto dateRange, int Page)
         {
             GenaricResponse<IEnumerable<TransactionHistoryDto>> TransactionHistoryDto = 
-                _reportService.TransactionHistory(x => x.Date >= Date.FromDate && x.Date<=Date.ToDate, Page);
+                _reportService.TransactionHistoryWithFilter(x => x.Date >= dateRange.FromDate && x.Date<= dateRange.ToDate, Page);
 
             if (TransactionHistoryDto.Success)
             {

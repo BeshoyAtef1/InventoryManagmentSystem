@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using InventoryManagmentSystem.Domain.Models;
 using InventoryManagmentSystem.Business.ErrorCode;
 using InventoryManagmentSystem.Business.DTO.Product;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace InventoryManagmentSystem.Controllers
@@ -53,7 +54,8 @@ namespace InventoryManagmentSystem.Controllers
             }
             return BadRequest(EditResponse);
         }
-        
+
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{ProductId:int}/{WarehouseId:int}")]
         public async Task<IActionResult> DeleteById([FromRoute]ProductWarehouseIDDto deleteProductDto)
         {

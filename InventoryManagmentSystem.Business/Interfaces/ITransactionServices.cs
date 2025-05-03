@@ -10,9 +10,9 @@ namespace InventoryManagmentSystem.Business.Interfaces
 {
     public interface ITransactionServices
     {
-        public Task<GenaricResponse<string>> AddStockAsync(AddTransactionDto addDto);
-        public Task<GenaricResponse<string>> RemoveStockAsync(DeleteTransactionDto DeleteDto);
-        public Task<GenaricResponse<string>> TransferStockAsync(TransferTransactionDto TransferDto);
+        public Task<GenaricResponse<string>> AddStockAsync(AddTransactionDto addDto, string userId);
+        public Task<GenaricResponse<string>> RemoveStockAsync(DeleteTransactionDto DeleteDto, string userId);
+        public Task<GenaricResponse<string>> TransferStockAsync(TransferTransactionDto TransferDto, string userId);
 
 
     }

@@ -10,18 +10,12 @@ namespace InventoryManagmentSystem.Business.DTO.Product
 {
     public class GetAllProductDto
     {
-        public string Name { get; set; }
+        public string ProductName { get; set; }
         public string? Description { get; set; }
 
         [Range(0, double.MaxValue)]
         public int Price { get; set; }
 
-        [Range(0, int.MaxValue)]
-        public int Quantity { get; set; }
-
-        [Range(0, int.MaxValue)]
-        public int LowStockThreshold { get; set; }
-
-        public List<ProductWarehouse> productWarehouses { get; set; }
+        public List<ProductWarehouseDto> productWarehouses { get; set; }
     }
 }

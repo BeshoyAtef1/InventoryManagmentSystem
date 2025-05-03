@@ -55,7 +55,7 @@ namespace InventoryManagmentSystem.Business.Services
 
         }
 
-        public GenaricResponse<IEnumerable<TransactionHistoryDto>> TransactionHistory
+        public GenaricResponse<IEnumerable<TransactionHistoryDto>> TransactionHistoryWithFilter
             (Expression<Func<InventoryTransaction, bool>> filter  ,int Page = 1 , int PageSize = 10)
         {
 
@@ -76,7 +76,7 @@ namespace InventoryManagmentSystem.Business.Services
                         DestinationWarehouse=it.DestinationWarehouse.Name,
                         ProductName=it.Product.Name,
                         SourceWarehouse=it.SourceWarehouse.Name,    
-                        transactionType=it.transactionType,
+                        transactionType=it.transactionType.ToString(),
                         UserName=it.User.UserName,  
 
                     }).ToList();

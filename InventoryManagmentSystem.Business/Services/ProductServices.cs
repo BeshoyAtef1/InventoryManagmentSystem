@@ -3,6 +3,7 @@ using InventoryManagmentSystem.Business.ErrorCode;
 using InventoryManagmentSystem.Business.Interfaces;
 using InventoryManagmentSystem.DataAccess.UnitOfWork;
 using InventoryManagmentSystem.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,21 +26,20 @@ namespace InventoryManagmentSystem.Business.Services
             try
             {
                 List<GetAllProductDto> products = _unitOfWork.ProductRepo.GetAll()
-                    .Select(p => new GetAllProductDto
-                    {
-                        Name = p.Name,
-                        Description = p.Description,
-                        Price = p.Price,
-
-                         productWarehouses = p.ProductWarehouse
-                        .Select(pw => new ProductWarehouse
-                        {
-                            WarehouseId = pw.WarehouseId,
-                            Quantity = pw.Quantity,
-                            LowStockThreshold = pw.LowStockThreshold
-                        }).ToList()
-                    })
-                    .ToList();
+                      .AsNoTracking()
+                      .Select(p => new GetAllProductDto
+                      {
+                          ProductName = p.Name,
+                          Description = p.Description,
+                          Price = p.Price,
+                          productWarehouses = p.ProductWarehouse.Select(pw => new ProductWarehouseDto
+                          {
+                              WarehouseName = pw.Warehouse.Name,
+                              Quantity = pw.Quantity,
+                              LowStockThreshold = pw.LowStockThreshold
+                          }).ToList()
+                      })
+                      .ToList();
                 return new GenaricResponse<IEnumerable<GetAllProductDto>> { Success = true, Data = products };
             }
             catch (Exception ex)
@@ -53,11 +53,11 @@ namespace InventoryManagmentSystem.Business.Services
         {
             try
             {
-                Product product = _unitOfWork.ProductRepo
+                Product? product = _unitOfWork.ProductRepo
                     .GetAllWithFilter(p => p.Id == getProductDto.ProductId)
                     .FirstOrDefault();
 
-                ProductWarehouse productWarehouse =  _unitOfWork.ProductWarehouseRepo
+                ProductWarehouse? productWarehouse =  _unitOfWork.ProductWarehouseRepo
                     .GetAllWithFilter(pw => pw.ProductId == getProductDto.ProductId && pw.WarehouseId == getProductDto.WarehouseId)
                     .FirstOrDefault();
 
@@ -99,6 +99,7 @@ namespace InventoryManagmentSystem.Business.Services
                 };
 
                 await _unitOfWork.ProductRepo.AddAsync(product);
+                await _unitOfWork.SaveAsync(); // take ProductId
 
                 ProductWarehouse productWarehouse = new ProductWarehouse()
                 {
@@ -130,29 +131,26 @@ namespace InventoryManagmentSystem.Business.Services
         {
             try
             {
-                Product product = new Product()
-                {
-                    Name = productDto.Name,
-                    Description = productDto.Description,
-                    Price = productDto.Price,
-                };
+                Product? product = _unitOfWork.ProductRepo.GetAllWithFilter(p => p.Id == id).FirstOrDefault();
+                ProductWarehouse? productWarehouse =  _unitOfWork.ProductWarehouseRepo.GetAllWithFilter(pw => pw.ProductId == id && pw.WarehouseId == productDto.WarehouseId).FirstOrDefault();
 
-                ProductWarehouse productWarehouse = new ProductWarehouse()
+                if (product == null || productWarehouse == null)
                 {
-                    LowStockThreshold = productDto.LowStockThreshold,
-                    Quantity = productDto.Quantity,
-                    ProductId = product.Id,
-                    WarehouseId = productDto.WarehouseId
-                };
-
-                if (await _unitOfWork.ProductRepo.UpdateAsync(p => p.Id == id, product) &&
-                    await _unitOfWork.ProductWarehouseRepo.UpdateAsync(pw => pw.ProductId == id && pw.WarehouseId == productDto.WarehouseId, productWarehouse))
-                {
-                    await _unitOfWork.SaveAsync();
-                    return new GenaricResponse<ProductDto> { Success = true, Data = productDto };
+                    return new GenaricResponse<ProductDto> { Success = false,  Data = productDto, Message = "Product or ProductWarehouse not found."};
                 }
 
-               return new GenaricResponse<ProductDto> { Success = false, Data = productDto, Message = "ProductWarehouse or product not found." };
+                product.Name = productDto.Name;
+                product.Description = productDto.Description;
+                product.Price = productDto.Price;
+
+                productWarehouse.LowStockThreshold = productDto.LowStockThreshold;
+                productWarehouse.Quantity = productDto.Quantity;
+
+               await _unitOfWork.ProductRepo.UpdateAsync(p => p.Id == id,product);
+               await _unitOfWork.ProductWarehouseRepo.UpdateAsync(pw => pw.ProductId == id && pw.WarehouseId == productDto.WarehouseId, productWarehouse);
+               await _unitOfWork.SaveAsync();
+
+                return new GenaricResponse<ProductDto> { Success = true, Data = productDto};
 
             }
             catch (Exception ex)

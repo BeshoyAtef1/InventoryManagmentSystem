@@ -13,7 +13,7 @@ namespace InventoryManagmentSystem.Business.DTO.Transaction
         public int SourceWarehouseId { get; set; }
         public int DestinationWarehouseId { get; set; }
 
-        public string UserId { get; set; }
+
 
         public int Quantity { get; set; }
 

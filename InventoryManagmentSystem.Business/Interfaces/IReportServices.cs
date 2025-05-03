@@ -13,7 +13,7 @@ namespace InventoryManagmentSystem.Business.Interfaces
     public interface IReportServices
     {
         public GenaricResponse<IEnumerable<LowStockReportDto>> LowStockReport(int Page = 1, int PageSize = 10);
-        public GenaricResponse<IEnumerable<TransactionHistoryDto>> TransactionHistory(Expression<Func<InventoryTransaction, bool>> filter, int Page = 1, int PageSize = 10);
+        public GenaricResponse<IEnumerable<TransactionHistoryDto>> TransactionHistoryWithFilter(Expression<Func<InventoryTransaction, bool>> filter, int Page = 1, int PageSize = 10);
 
 
     }

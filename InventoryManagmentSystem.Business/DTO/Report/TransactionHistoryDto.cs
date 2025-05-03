@@ -9,7 +9,7 @@ namespace InventoryManagmentSystem.Business.DTO.Report
 {
     public class TransactionHistoryDto
     {
-        public TransactionType transactionType { get; set; }
+        public string transactionType { get; set; }
         public int Quantity { get; set; }
         public DateTime Date { get; set; }
         public string UserName { get; set; }

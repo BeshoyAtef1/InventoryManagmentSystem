@@ -37,8 +37,17 @@ namespace InventoryManagmentSystem.Business.Services
                     Email = UserFromConsumer.Email,
                 };
                 IdentityResult result = await _userManager.CreateAsync(user, UserFromConsumer.Password);
-       
-                return result;
+
+                if (user.UserName == "Admin")
+                {
+                    await _userManager.AddToRoleAsync(user, "Admin");
+                }
+                else
+                {
+                    await _userManager.AddToRoleAsync(user, "User");
+                }
+
+            return result;
 
         }
 
@@ -94,15 +103,7 @@ namespace InventoryManagmentSystem.Business.Services
 
 
 
-                    if (user.UserName == "Admin") 
-                    {
-                        await _userManager.AddToRoleAsync(user, "Admin");
-                    }
-                    else
-                    {
-                        await _userManager.AddToRoleAsync(user, "User");
-                    }
-
+                    
                     return new GenaricResponse<TokenDto> { Success = true, Data = tokenDto };
 
                 }

@@ -2,8 +2,10 @@
 using InventoryManagmentSystem.Business.DTO.Transaction;
 using InventoryManagmentSystem.Business.ErrorCode;
 using InventoryManagmentSystem.Business.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace InventoryManagmentSystem.Controllers
 {
@@ -18,6 +20,8 @@ namespace InventoryManagmentSystem.Controllers
         {
             _TransactionServices= TransactionServices;
         }
+
+        [Authorize(Roles = "User")]
         [HttpPost("AddStock")]
         public async Task<IActionResult> AddStock(AddTransactionDto addDto)
         {
@@ -25,8 +29,9 @@ namespace InventoryManagmentSystem.Controllers
             {
                 return BadRequest(ModelState);
             }
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            GenaricResponse<string> AddResponse = await _TransactionServices.AddStockAsync(addDto);
+            GenaricResponse<string> AddResponse = await _TransactionServices.AddStockAsync(addDto,userId);
 
             if (AddResponse.Success)
             {
@@ -34,6 +39,8 @@ namespace InventoryManagmentSystem.Controllers
             }
             return BadRequest(AddResponse);
         }
+
+        [Authorize(Roles = "User")]
         [HttpPost("RemoveStock")]
         public async Task<IActionResult> RemoveStock(DeleteTransactionDto RemoveDto)
         {
@@ -42,7 +49,9 @@ namespace InventoryManagmentSystem.Controllers
                 return BadRequest(ModelState);
             }
 
-            GenaricResponse<string> RemoveResponse = await _TransactionServices.RemoveStockAsync(RemoveDto);
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier); 
+
+            GenaricResponse<string> RemoveResponse = await _TransactionServices.RemoveStockAsync(RemoveDto, userId);
 
             if (RemoveResponse.Success)
             {
@@ -50,6 +59,8 @@ namespace InventoryManagmentSystem.Controllers
             }
             return BadRequest(RemoveResponse);
         }
+
+        [Authorize(Roles = "User")]
         [HttpPost("TransferStock")]
         public async Task<IActionResult> TransferStock(TransferTransactionDto TransferDto)
         {
@@ -57,8 +68,9 @@ namespace InventoryManagmentSystem.Controllers
             {
                 return BadRequest(ModelState);
             }
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            GenaricResponse<string> TransferResponse = await _TransactionServices.TransferStockAsync(TransferDto);
+            GenaricResponse<string> TransferResponse = await _TransactionServices.TransferStockAsync(TransferDto , userId);
 
             if (TransferResponse.Success)
             {

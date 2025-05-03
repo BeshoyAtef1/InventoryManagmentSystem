@@ -11,7 +11,6 @@ namespace InventoryManagmentSystem.Business.DTO.Transaction
     {
         public int ProductId { get; set; }
         public int WarehouseId { get; set; }
-        public string  UserId { get; set; }
 
         [Range(1,int.MaxValue)]
         public int Quantity { get; set; }

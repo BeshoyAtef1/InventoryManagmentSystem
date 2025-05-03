@@ -4,9 +4,12 @@ using InventoryManagmentSystem.Business.ErrorCode;
 using InventoryManagmentSystem.Business.Interfaces;
 using InventoryManagmentSystem.DataAccess.UnitOfWork;
 using InventoryManagmentSystem.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,16 +19,17 @@ namespace InventoryManagmentSystem.Business.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
+
         public TransactionServices(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<GenaricResponse<string>> AddStockAsync(AddTransactionDto addDto)
+        public async Task<GenaricResponse<string>> AddStockAsync(AddTransactionDto addDto , string userId)
         {
             try
             {
-                ProductWarehouse productWarehouse = _unitOfWork.ProductWarehouseRepo
+                ProductWarehouse? productWarehouse = _unitOfWork.ProductWarehouseRepo
                .GetAllWithFilter(PW => PW.ProductId == addDto.ProductId && PW.WarehouseId == addDto.WarehouseId)
                .FirstOrDefault();
 
@@ -36,13 +40,14 @@ namespace InventoryManagmentSystem.Business.Services
 
                 productWarehouse.Quantity += addDto.Quantity;
 
+   
                 InventoryTransaction transaction = new InventoryTransaction()
                 {
                     Quantity = addDto.Quantity,
                     Date = DateTime.Now,
                     SourceWarehouseId = addDto.WarehouseId,
                     ProductId = addDto.ProductId,
-                    UserId = addDto.UserId,
+                    UserId = userId,
                     transactionType = TransactionType.Add,
                 };
 
@@ -62,11 +67,11 @@ namespace InventoryManagmentSystem.Business.Services
         }
 
 
-        public async Task<GenaricResponse<string>> RemoveStockAsync(DeleteTransactionDto DeleteDto)
+        public async Task<GenaricResponse<string>> RemoveStockAsync(DeleteTransactionDto DeleteDto , string userId)
         {
             try
             {
-                ProductWarehouse productWarehouse = _unitOfWork.ProductWarehouseRepo
+                ProductWarehouse? productWarehouse = _unitOfWork.ProductWarehouseRepo
                     .GetAllWithFilter(PW => PW.ProductId == DeleteDto.ProductId && PW.WarehouseId == DeleteDto.WarehouseId)
                     .FirstOrDefault();
 
@@ -88,7 +93,7 @@ namespace InventoryManagmentSystem.Business.Services
                     Date = DateTime.Now,
                     SourceWarehouseId = DeleteDto.WarehouseId,
                     ProductId = DeleteDto.ProductId,
-                    UserId = DeleteDto.UserId,
+                    UserId = userId,
                     transactionType = TransactionType.Remove,
                 };
 
@@ -105,7 +110,7 @@ namespace InventoryManagmentSystem.Business.Services
         }
 
 
-        public async Task<GenaricResponse<string>> TransferStockAsync(TransferTransactionDto TransferDto)
+        public async Task<GenaricResponse<string>> TransferStockAsync(TransferTransactionDto TransferDto , string userId)
         {
             try
             {
@@ -115,11 +120,11 @@ namespace InventoryManagmentSystem.Business.Services
 
                 }
 
-                ProductWarehouse productSourceWarehouse = _unitOfWork.ProductWarehouseRepo
+                ProductWarehouse? productSourceWarehouse = _unitOfWork.ProductWarehouseRepo
                     .GetAllWithFilter(PW => PW.ProductId == TransferDto.ProductId && PW.WarehouseId == TransferDto.SourceWarehouseId)
                     .FirstOrDefault();
 
-                ProductWarehouse productDestinationWarehouse = _unitOfWork.ProductWarehouseRepo
+                ProductWarehouse? productDestinationWarehouse = _unitOfWork.ProductWarehouseRepo
                  .GetAllWithFilter(PW => PW.ProductId == TransferDto.ProductId && PW.WarehouseId == TransferDto.DestinationWarehouseId)
                  .FirstOrDefault();
 
@@ -145,7 +150,7 @@ namespace InventoryManagmentSystem.Business.Services
                     SourceWarehouseId = TransferDto.SourceWarehouseId,
                     DestinationWarehouseId = TransferDto.DestinationWarehouseId,
                     ProductId = TransferDto.ProductId,
-                    UserId = TransferDto.UserId,
+                    UserId = userId,
                     transactionType = TransactionType.Transfer,
                 };
 
