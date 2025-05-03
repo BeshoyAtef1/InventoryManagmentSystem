@@ -27,16 +27,13 @@ builder.Services.AddScoped<IReportServices, ReportServices>();
 builder.Services.AddScoped<ITransactionServices, TransactionServices>();
 builder.Services.AddScoped<IAccoutSevices, AccountServices>();
 
-//----------------------------------------------------------------------------------------------------------------------------------------/
+//----------------------------------------------------------Hangfire------------------------------------------------------------------------/
 builder.Services.AddHangfire(option => option.UseSqlServerStorage(builder.Configuration["ConnectionStrings:cs"]));
 builder.Services.AddHangfireServer();
 
 
 
-
-
-
-//----------------------------------------------------------------------------------------------------------------------------------------/
+//----------------------------------------------------------Serilog------------------------------------------------------------------------/
 Serilog.Log.Logger = new LoggerConfiguration()
     .WriteTo.Seq(builder.Configuration["Seq:SeqUrl"])
     .WriteTo.MSSqlServer(connectionString: builder.Configuration["ConnectionStrings:cs"],
@@ -46,7 +43,7 @@ Serilog.Log.Logger = new LoggerConfiguration()
 ).CreateLogger();
 
 builder.Host.UseSerilog();
-//----------------------------------------------------------------------------------------------------------------------------------------/
+//--------------------------------------------------------AddDbContext---------------------------------------------------------------------------/
 
 
 builder.Services.AddDbContext<AppDbContext>(
@@ -56,6 +53,9 @@ builder.Services.AddDbContext<AppDbContext>(
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
 
+//---------------------------------------------------------Add Memory Cache---------------------------------------------------------------------------/
+
+builder.Services.AddMemoryCache();
 //----------------------------------------------------------------------------------------------------------------------------------------/
 
 //setting Auth MiddleWare check using jwt
@@ -86,6 +86,24 @@ builder.Services.AddAuthentication(
 
 var app = builder.Build();
 
+//---------------------------------------------------------Add RoleManger----------------------------------------------------------------------------/
+app.Lifetime.ApplicationStarted.Register(async () =>
+{
+    using var scope = app.Services.CreateScope();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    string[] roles = new[] { "Admin", "User" };
+
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
+});
+
+//----------------------------------------------------------------------------------------------------------------------------------------/
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -95,7 +113,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-//----------------------------------------------------------------------------------------------------------------------------------------/
+//-------------------------------------------------Hangfire---------------------------------------------------------------------------------/
 
 app.UseHangfireDashboard("/dashboard");
 
