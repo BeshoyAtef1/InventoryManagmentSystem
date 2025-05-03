@@ -15,7 +15,7 @@ namespace InventoryManagmentSystem.Domain.Models
         public ICollection<ProductWarehouse> ProductWarehouses { get; set; }
         public ICollection<InventoryTransaction> SourceTransactions { get; set; }
         public ICollection<InventoryTransaction> DestinationTransactions { get; set; }
-        public ICollection<Notification> NotificationLogs { get; set; }
+        public ICollection<NotificationLog> NotificationLogs { get; set; }
 
 
 

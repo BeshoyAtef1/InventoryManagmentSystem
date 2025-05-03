@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace InventoryManagmentSystem.Domain.Models
 {
-    public class Notification
+    public class NotificationLog
     {
         public int Id { get; set; }
 

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace InventoryManagmentSystem.DataAccess.Interfaces
 {
-    public interface INotificationRepo : IGenericRepository<Notification>
+    public interface INotificationRepo : IGenericRepository<NotificationLog>
     {
     }
 }

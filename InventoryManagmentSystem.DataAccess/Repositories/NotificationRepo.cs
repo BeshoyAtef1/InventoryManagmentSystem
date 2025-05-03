@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace InventoryManagmentSystem.DataAccess.Repositories
 {
-    public class NotificationRepo : GenericRepository<Notification> , INotificationRepo
+    public class NotificationRepo : GenericRepository<NotificationLog> , INotificationRepo
     {
         private readonly AppDbContext appDbContext;
 

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InventoryManagmentSystem.Business.DTO
+namespace InventoryManagmentSystem.Business.Interfaces
 {
-    public class ProductDto
+    public interface INotificationServices
     {
     }
 }

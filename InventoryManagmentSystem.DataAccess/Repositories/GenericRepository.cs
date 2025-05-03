@@ -24,7 +24,7 @@ namespace InventoryManagmentSystem.DataAccess.Repositories
             await _appDBContext.Set<TEntity>().AddAsync(entity);
         }
 
-        public async Task<bool> Delete(Expression<Func<TEntity, bool>> Predicate)
+        public async Task<bool> DeleteAsync(Expression<Func<TEntity, bool>> Predicate)
         {
             TEntity? result = await _appDBContext.Set<TEntity>().FirstOrDefaultAsync(Predicate);
             if (result is not null)
@@ -44,6 +44,7 @@ namespace InventoryManagmentSystem.DataAccess.Repositories
         {
             return _appDBContext.Set<TEntity>();
         }
+
 
         public async Task<bool> UpdateAsync(Expression<Func<TEntity, bool>> Predicate, TEntity entity) 
         {

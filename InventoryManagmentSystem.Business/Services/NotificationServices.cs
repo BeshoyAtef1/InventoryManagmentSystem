@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace InventoryManagmentSystem.Business.Services
 {
-    public class NotificationServices : INoificationServces
+    public class NotificationServices : INotificationServices
     {
         private readonly IUnitOfWork _unitOfWork;
 

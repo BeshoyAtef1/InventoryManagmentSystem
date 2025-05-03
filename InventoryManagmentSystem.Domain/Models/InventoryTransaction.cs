@@ -7,17 +7,18 @@ using System.Threading.Tasks;
 
 namespace InventoryManagmentSystem.Domain.Models
 {
-   
+
+    public enum TransactionType
+    {
+        Add,
+        Remove,
+        Transfer,
+        Adjustment
+
+    }
     public class InventoryTransaction
     {
-        public enum TransactionType
-        {
-            Add,
-            Remove,
-            Transfer,
-            Adjustment
-
-        }
+  
         public int Id { get; set; }
         public TransactionType transactionType { get; set; }
         public int Quantity { get; set; }
@@ -30,7 +31,7 @@ namespace InventoryManagmentSystem.Domain.Models
         public int? DestinationWarehouseId { get; set; }
 
         [ForeignKey(nameof(UserId))]
-        public User User { get; set; }
+        public ApplicationUser User { get; set; }
 
         [ForeignKey(nameof(SourceWarehouseId))]
         public Warehouse SourceWarehouse { get; set; }

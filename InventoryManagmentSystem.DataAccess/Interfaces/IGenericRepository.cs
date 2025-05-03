@@ -9,13 +9,16 @@ namespace InventoryManagmentSystem.DataAccess.Interfaces
 {
     public interface IGenericRepository<T>
     {
-        public Task AddAsync(T entity);
+         Task AddAsync(T entity);
 
-        public Task<bool> Delete(Expression<Func<T, bool>> Predicate);
+         Task<bool> DeleteAsync(Expression<Func<T, bool>> Predicate);
 
-        public IQueryable<T> GetAllWithFilter(Expression<Func<T, bool>> expression);
+         IQueryable<T> GetAllWithFilter(Expression<Func<T, bool>> expression);
 
-        public Task<bool> UpdateAsync(Expression<Func<T, bool>> Predicate, T entity);
+
+        IQueryable<T> GetAll();
+
+        Task<bool> UpdateAsync(Expression<Func<T, bool>> Predicate, T entity);
 
 
 

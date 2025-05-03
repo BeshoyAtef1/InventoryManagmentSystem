@@ -29,7 +29,7 @@ namespace InventoryManagmentSystem.Domain.Models
         public int? DestinationWarehouseId { get; set; }
 
         [ForeignKey(nameof(UserId))]
-        public User User { get; set; }
+        public ApplicationUser User { get; set; }
 
         [ForeignKey(nameof(SourceWarehouseId))]
         public Warehouse SourceWarehouse { get; set; }

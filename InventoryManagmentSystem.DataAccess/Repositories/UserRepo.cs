@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace InventoryManagmentSystem.DataAccess.Repositories
 {
-    public class UserRepo : GenericRepository<User> , IUserRepo
+    public class UserRepo : GenericRepository<ApplicationUser> , IUserRepo
     {
         private readonly AppDbContext appDbContext;
 

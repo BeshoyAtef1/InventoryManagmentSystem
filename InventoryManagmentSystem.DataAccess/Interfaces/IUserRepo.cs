@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace InventoryManagmentSystem.DataAccess.Interfaces
 {
-    public interface IUserRepo : IGenericRepository<User>
+    public interface IUserRepo : IGenericRepository<ApplicationUser>
     {
     }
 }

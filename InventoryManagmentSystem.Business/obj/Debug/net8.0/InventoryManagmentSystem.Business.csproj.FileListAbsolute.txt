@@ -13,3 +13,8 @@ E:\iti 9 m 2024\InventoryManagmentSystem\InventoryManagmentSystem\InventoryManag
 E:\iti 9 m 2024\InventoryManagmentSystem\InventoryManagmentSystem\InventoryManagmentSystem.Business\bin\Debug\net8.0\InventoryManagmentSystem.Business.runtimeconfig.json
 E:\iti 9 m 2024\InventoryManagmentSystem\InventoryManagmentSystem\InventoryManagmentSystem.Business\obj\Debug\net8.0\InventoryManagmentSystem.Business.csproj.AssemblyReference.cache
 E:\iti 9 m 2024\InventoryManagmentSystem\InventoryManagmentSystem\InventoryManagmentSystem.Business\obj\Debug\net8.0\InventoryManagmentSystem.Business.genruntimeconfig.cache
+E:\iti 9 m 2024\InventoryManagmentSystem\InventoryManagmentSystem\InventoryManagmentSystem.Business\bin\Debug\net8.0\InventoryManagmentSystem.DataAccess.dll
+E:\iti 9 m 2024\InventoryManagmentSystem\InventoryManagmentSystem\InventoryManagmentSystem.Business\bin\Debug\net8.0\InventoryManagmentSystem.Domain.dll
+E:\iti 9 m 2024\InventoryManagmentSystem\InventoryManagmentSystem\InventoryManagmentSystem.Business\bin\Debug\net8.0\InventoryManagmentSystem.DataAccess.pdb
+E:\iti 9 m 2024\InventoryManagmentSystem\InventoryManagmentSystem\InventoryManagmentSystem.Business\bin\Debug\net8.0\InventoryManagmentSystem.Domain.pdb
+E:\iti 9 m 2024\InventoryManagmentSystem\InventoryManagmentSystem\InventoryManagmentSystem.Business\obj\Debug\net8.0\Inventor.4A330177.Up2Date

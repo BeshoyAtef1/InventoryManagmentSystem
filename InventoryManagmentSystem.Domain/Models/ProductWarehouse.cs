@@ -26,7 +26,7 @@ namespace InventoryManagmentSystem.Domain.Models
         public int LowStockThreshold { get; set; }
 
 
-        [ForeignKey(nameof(WarehouseId))]
+        [ForeignKey(nameof(ProductId))]
         public Product Product { get; set; }
 
 
