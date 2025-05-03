@@ -44,8 +44,13 @@ namespace InventoryManagmentSystem.Business.Services
 
                 productWarehouse.Quantity += addDto.Quantity;
 
-              
-   
+
+                if (productWarehouse.Quantity < productWarehouse.LowStockThreshold)  // log in serilog
+                {
+                    _logger.LogWarning($"product {productWarehouse.ProductId} is LowStockThreshold ");
+                }
+
+
                 InventoryTransaction transaction = new InventoryTransaction()
                 {
                     Quantity = addDto.Quantity,
@@ -94,7 +99,7 @@ namespace InventoryManagmentSystem.Business.Services
                 productWarehouse.Quantity -= DeleteDto.Quantity;
 
 
-                if (productWarehouse.Quantity < productWarehouse.LowStockThreshold)  // log
+                if (productWarehouse.Quantity < productWarehouse.LowStockThreshold)  // log in serilog
                 {
                     _logger.LogWarning($"product {productWarehouse.ProductId} is LowStockThreshold ");
                 }

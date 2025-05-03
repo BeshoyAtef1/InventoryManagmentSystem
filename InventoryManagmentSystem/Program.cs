@@ -1,3 +1,4 @@
+using Hangfire;
 using InventoryManagmentSystem.Business.Interfaces;
 using InventoryManagmentSystem.Business.Services;
 using InventoryManagmentSystem.DataAccess.Data;
@@ -22,29 +23,40 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IProductServices,ProductServices>();
-builder.Services.AddScoped<INotificationServices, NotificationServices>();
 builder.Services.AddScoped<IReportServices, ReportServices>();
 builder.Services.AddScoped<ITransactionServices, TransactionServices>();
 builder.Services.AddScoped<IAccoutSevices, AccountServices>();
 
+//----------------------------------------------------------------------------------------------------------------------------------------/
+builder.Services.AddHangfire(option => option.UseSqlServerStorage(builder.Configuration["ConnectionStrings:cs"]));
+builder.Services.AddHangfireServer();
 
+
+
+
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------/
 Serilog.Log.Logger = new LoggerConfiguration()
     .WriteTo.Seq(builder.Configuration["Seq:SeqUrl"])
-    .WriteTo.MSSqlServer(connectionString: builder.Configuration["ConnectionStrings:CS"],
+    .WriteTo.MSSqlServer(connectionString: builder.Configuration["ConnectionStrings:cs"],
    // restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Warning,
     sinkOptions: new MSSqlServerSinkOptions { TableName = "Logs " , AutoCreateSqlTable =true }
 
 ).CreateLogger();
 
 builder.Host.UseSerilog();
+//----------------------------------------------------------------------------------------------------------------------------------------/
 
 
 builder.Services.AddDbContext<AppDbContext>(
-    options => options.UseSqlServer(builder.Configuration.GetConnectionString("CS"))
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("cs"))
     );
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
+
+//----------------------------------------------------------------------------------------------------------------------------------------/
 
 //setting Auth MiddleWare check using jwt
 builder.Services.AddAuthentication(
@@ -70,6 +82,8 @@ builder.Services.AddAuthentication(
             IssuerSigningKey= new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
         };
     });
+//----------------------------------------------------------------------------------------------------------------------------------------/
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -80,6 +94,17 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+//----------------------------------------------------------------------------------------------------------------------------------------/
+
+app.UseHangfireDashboard("/dashboard");
+
+RecurringJob.AddOrUpdate<LowStockCheckerJobServices>(
+    "CheckLowStockDaily",
+    job => job.ExecuteAsync(),
+    Cron.Daily
+);
+//----------------------------------------------------------------------------------------------------------------------------------------/
 
 app.UseAuthorization();
 

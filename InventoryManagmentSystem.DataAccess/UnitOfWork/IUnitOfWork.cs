@@ -13,7 +13,6 @@ namespace InventoryManagmentSystem.DataAccess.UnitOfWork
 
         public IInventoryTransactionRepo InventoryTransactionRepo { get; }
 
-        public INotificationRepo NotificationRepo { get; }
 
         public IProductRepo ProductRepo { get; }
 

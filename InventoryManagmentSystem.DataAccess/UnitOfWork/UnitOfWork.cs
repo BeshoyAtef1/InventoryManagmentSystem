@@ -17,7 +17,6 @@ namespace InventoryManagmentSystem.DataAccess.UnitOfWork
 
         public IArchiveTransactionRepo ArchiveTransactionRepo { get; }
         public IInventoryTransactionRepo InventoryTransactionRepo { get; }
-        public INotificationRepo NotificationRepo { get; }
         public IProductRepo ProductRepo { get; }
         public IProductWarehouseRepo ProductWarehouseRepo { get; }
         public IUserRepo UserRepo { get; }
@@ -28,7 +27,6 @@ namespace InventoryManagmentSystem.DataAccess.UnitOfWork
 
             ArchiveTransactionRepo = new ArchiveTransactionRepo(_appDbContext);
             InventoryTransactionRepo = new InventoryTransactionRepo(_appDbContext);
-            NotificationRepo = new NotificationRepo(_appDbContext);
             ProductRepo = new ProductRepo(_appDbContext);
             ProductWarehouseRepo = new ProductWarehouseRepo(_appDbContext);
             UserRepo = new UserRepo(_appDbContext);

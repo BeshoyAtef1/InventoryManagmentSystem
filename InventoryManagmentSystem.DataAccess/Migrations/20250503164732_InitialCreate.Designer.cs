@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventoryManagmentSystem.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250502110759_init2")]
-    partial class init2
+    [Migration("20250503164732_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,10 +49,6 @@ namespace InventoryManagmentSystem.DataAccess.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -135,36 +131,6 @@ namespace InventoryManagmentSystem.DataAccess.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("InventoryTransactions");
-                });
-
-            modelBuilder.Entity("InventoryManagmentSystem.Domain.Models.NotificationLog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("WarehouseId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("WarehouseId");
-
-                    b.ToTable("NotificationLogs");
                 });
 
             modelBuilder.Entity("InventoryManagmentSystem.Domain.Models.Product", b =>
@@ -259,20 +225,12 @@ namespace InventoryManagmentSystem.DataAccess.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("transactionType")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DestinationWarehouseId");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("SourceWarehouseId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("ArchiveTransactions");
                 });
@@ -441,23 +399,6 @@ namespace InventoryManagmentSystem.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("InventoryManagmentSystem.Domain.Models.NotificationLog", b =>
-                {
-                    b.HasOne("InventoryManagmentSystem.Domain.Models.Product", "Product")
-                        .WithMany("Notification")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryManagmentSystem.Domain.Models.Warehouse", "Warehouse")
-                        .WithMany("NotificationLogs")
-                        .HasForeignKey("WarehouseId");
-
-                    b.Navigation("Product");
-
-                    b.Navigation("Warehouse");
-                });
-
             modelBuilder.Entity("InventoryManagmentSystem.Domain.Models.ProductWarehouse", b =>
                 {
                     b.HasOne("InventoryManagmentSystem.Domain.Models.Product", "Product")
@@ -475,39 +416,6 @@ namespace InventoryManagmentSystem.DataAccess.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("Warehouse");
-                });
-
-            modelBuilder.Entity("InventoryManagmentSystem.Domain.Models.archiveTransactionRepo", b =>
-                {
-                    b.HasOne("InventoryManagmentSystem.Domain.Models.Warehouse", "DestinationWarehouse")
-                        .WithMany()
-                        .HasForeignKey("DestinationWarehouseId");
-
-                    b.HasOne("InventoryManagmentSystem.Domain.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryManagmentSystem.Domain.Models.Warehouse", "SourceWarehouse")
-                        .WithMany()
-                        .HasForeignKey("SourceWarehouseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryManagmentSystem.Domain.Models.ApplicationUser", "User")
-                        .WithMany("ArchivedTransactions")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DestinationWarehouse");
-
-                    b.Navigation("Product");
-
-                    b.Navigation("SourceWarehouse");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -563,8 +471,6 @@ namespace InventoryManagmentSystem.DataAccess.Migrations
 
             modelBuilder.Entity("InventoryManagmentSystem.Domain.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("ArchivedTransactions");
-
                     b.Navigation("inventoryTransactions");
                 });
 
@@ -572,16 +478,12 @@ namespace InventoryManagmentSystem.DataAccess.Migrations
                 {
                     b.Navigation("InventoryTransactions");
 
-                    b.Navigation("Notification");
-
                     b.Navigation("ProductWarehouse");
                 });
 
             modelBuilder.Entity("InventoryManagmentSystem.Domain.Models.Warehouse", b =>
                 {
                     b.Navigation("DestinationTransactions");
-
-                    b.Navigation("NotificationLogs");
 
                     b.Navigation("ProductWarehouses");
 

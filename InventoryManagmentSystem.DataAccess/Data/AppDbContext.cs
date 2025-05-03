@@ -16,7 +16,6 @@ namespace InventoryManagmentSystem.DataAccess.Data
         public DbSet<Product> products { get; set; }
         public DbSet<archiveTransactionRepo> ArchiveTransactions { get; set; }
         public DbSet<InventoryTransaction> InventoryTransactions { get; set; }
-        public DbSet<NotificationLog> NotificationLogs { get; set; }
         public DbSet<ProductWarehouse> ProductWarehouses { get; set; }
         public DbSet<ApplicationUser> Users { get; set; }
         public DbSet<Warehouse> Warehouses { get; set; }

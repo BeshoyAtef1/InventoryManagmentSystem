@@ -12,7 +12,6 @@ namespace InventoryManagmentSystem.Domain.Models
 
 
         public ICollection<InventoryTransaction> inventoryTransactions { get; set; }
-        public ICollection<archiveTransactionRepo> ArchivedTransactions { get; set; }
 
     }
 }
